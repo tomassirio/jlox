@@ -83,6 +83,17 @@ public class Scanner {
                 if (match('/')) {
                     // A comment goes until the end of the line.
                     while (peek() != '\n' && !isAtEnd()) advance();
+                } else if (match('*')) {
+                    while (peek() != '*' && peekNext() != '/' && !isAtEnd()) {
+                        if (peek() == '\n') line++;
+                        advance();
+                    }
+                    if (isAtEnd()) {
+                        Lox.error(line, "Unterminated comment.");
+                        return;
+                    }
+                    advance();
+                    advance();
                 } else {
                     addToken(TokenType.SLASH);
                 }
