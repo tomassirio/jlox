@@ -1,4 +1,4 @@
-package com.tomassirio.lox.token;
+package com.tomassirio.lox.scanner.token;
 
 public enum TokenType {
     // Single-character tokens.

@@ -1,7 +1,7 @@
 package com.tomassirio.lox;
 
 import com.tomassirio.lox.scanner.Scanner;
-import com.tomassirio.lox.token.Token;
+import com.tomassirio.lox.scanner.token.Token;
 
 import java.io.BufferedReader;
 import java.io.IOException;

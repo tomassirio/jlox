@@ -1,4 +1,4 @@
-package com.tomassirio.lox.token;
+package com.tomassirio.lox.scanner.token;
 
 public class Token {
     final TokenType type;

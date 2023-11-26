@@ -1,8 +1,9 @@
 package com.tomassirio.lox.scanner;
 
 import com.tomassirio.lox.Lox;
-import com.tomassirio.lox.token.Token;
-import com.tomassirio.lox.token.TokenType;
+import com.tomassirio.lox.scanner.reserved.ReservedKeyWords;
+import com.tomassirio.lox.scanner.token.Token;
+import com.tomassirio.lox.scanner.token.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,8 @@ public class Scanner {
             default:
                 if (isDigit(c)) {
                     number();
+                } else if (isAlpha(c)) {
+                    identifier();
                 } else {
                     Lox.error(line, "Unexpected character: " + c);
                 }
@@ -112,9 +115,16 @@ public class Scanner {
         return c >= '0' && c <= '9';
     }
 
-    private char advance() {
-        return source.charAt(current++);
+    private boolean isAlpha(char c) {
+        return (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == '_';
     }
+
+    private boolean isAlphaNumeric(char c) {
+        return isAlpha(c) || isDigit(c);
+    }
+
 
     private void addToken(TokenType type) {
         addToken(type, null);
@@ -125,18 +135,6 @@ public class Scanner {
         tokens.add(new Token(type, text, literal, line));
     }
 
-    private boolean match(char expected) {
-        if (isAtEnd()) return false;
-        if (source.charAt(current) != expected) return false;
-
-        current++;
-        return true;
-    }
-
-    private char peek() {
-        if (isAtEnd()) return '\0';
-        return source.charAt(current);
-    }
 
     private void string() {
         while (peek() != '"' && !isAtEnd()) {
@@ -171,8 +169,34 @@ public class Scanner {
         addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
     }
 
+    private void identifier() {
+        while (isAlphaNumeric(peek())) advance();
+
+        String text = source.substring(start, current);
+        TokenType type = ReservedKeyWords.get(text);
+        if (type == null) type = TokenType.IDENTIFIER;
+        addToken(type);
+    }
+
+    private char peek() {
+        if (isAtEnd()) return '\0';
+        return source.charAt(current);
+    }
+
     private char peekNext() {
         if (current + 1 >= source.length()) return '\0';
         return source.charAt(current + 1);
+    }
+
+    private char advance() {
+        return source.charAt(current++);
+    }
+
+    private boolean match(char expected) {
+        if (isAtEnd()) return false;
+        if (source.charAt(current) != expected) return false;
+
+        current++;
+        return true;
     }
 }
