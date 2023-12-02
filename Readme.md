@@ -29,3 +29,14 @@ java -jar target/jlox-1.0-SNAPSHOT.jar <file>
 ```
 
 Of course replace <file> with the path to the file you want to run.
+
+
+## Implemented so far
+
+We all have lives and so do I. I have not implemented the whole language yet, but I am working on it.
+
+So far I have implemented the following:
+- Scanner
+
+Next up:
+- Parser
