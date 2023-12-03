@@ -1,7 +1,7 @@
 package com.tomassirio.lox.parser;
 
 public class AstPrinter implements Expr.Visitor<String> {
-    String print(Expr expr) {
+    public String print(Expr expr) {
         return expr.accept(this);
     }
 

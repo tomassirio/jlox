@@ -25,4 +25,12 @@ public class Token {
         return lexeme;
     }
 
+    public Object getLiteral() {
+        return literal;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
 }
