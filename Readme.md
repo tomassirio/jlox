@@ -30,6 +30,18 @@ java -jar target/jlox-1.0-SNAPSHOT.jar <file>
 
 Of course replace <file> with the path to the file you want to run.
 
+## Use
+So far with the interpreter, you can make some arithmetic calculations:
+
+```jlox
+314 == "pi";
+```
+
+```jlox
+420 + 69
+```
+
+More complex operations will be implemented further on.
 
 ## Implemented so far
 
@@ -38,6 +50,7 @@ We all have lives and so do I. I have not implemented the whole language yet, bu
 So far I have implemented the following:
 - Scanner
 - Parser
+- Interpreter
 
 Next up:
-- Expressions
+- Statements and State
