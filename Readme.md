@@ -37,6 +37,7 @@ We all have lives and so do I. I have not implemented the whole language yet, bu
 
 So far I have implemented the following:
 - Scanner
+- Parser
 
 Next up:
-- Parser
+- Expressions
