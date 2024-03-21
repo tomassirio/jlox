@@ -31,10 +31,12 @@ java -jar target/jlox-1.0-SNAPSHOT.jar <file>
 Of course replace <file> with the path to the file you want to run.
 
 ## Use
+
+### Arithmetic Operations
 So far with the interpreter, you can make some arithmetic calculations:
 
 ```jlox
-314 == "pi";
+314 == "pi"
 ```
 
 ```jlox
@@ -42,6 +44,20 @@ So far with the interpreter, you can make some arithmetic calculations:
 ```
 
 More complex operations will be implemented further on.
+
+### Declaration and Assignment of variables
+
+Variables can be dynamically declared:
+
+```jlox
+var a = "tuvieja";
+```
+
+Also, if a variable exists, can have its value replaced:
+
+```jlox
+a = "nolongertuvieja";
+```
 
 ## Implemented so far
 
@@ -51,6 +67,7 @@ So far I have implemented the following:
 - Scanner
 - Parser
 - Interpreter
-
-Next up:
 - Statements and State
+
+Coming up:
+- Chapter 9: Control Flow

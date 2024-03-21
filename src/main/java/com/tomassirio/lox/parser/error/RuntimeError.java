@@ -1,4 +1,4 @@
-package com.tomassirio.lox.parser.exception;
+package com.tomassirio.lox.parser.error;
 
 import com.tomassirio.lox.scanner.token.Token;
 

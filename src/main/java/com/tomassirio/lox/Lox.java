@@ -1,10 +1,7 @@
 package com.tomassirio.lox;
 
-import com.tomassirio.lox.parser.AstPrinter;
-import com.tomassirio.lox.parser.Expr;
-import com.tomassirio.lox.parser.Interpreter;
-import com.tomassirio.lox.parser.Parser;
-import com.tomassirio.lox.parser.exception.RuntimeError;
+import com.tomassirio.lox.parser.*;
+import com.tomassirio.lox.parser.error.RuntimeError;
 import com.tomassirio.lox.scanner.Scanner;
 import com.tomassirio.lox.scanner.token.Token;
 import com.tomassirio.lox.scanner.token.TokenType;
@@ -49,26 +46,40 @@ public class Lox {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
-        for(;;) {
-            System.out.print("> ");
-            String line = reader.readLine();
-            if(line == null) break;
-            run(line);
+        for (;;) {
             hadError = false;
-        }
 
+            System.out.print("> ");
+            Scanner scanner = new Scanner(reader.readLine());
+            List<Token> tokens = scanner.scanTokens();
+
+            Parser parser = new Parser(tokens);
+            Object syntax = parser.parseRepl();
+
+            // Ignore it if there was a syntax error.
+            if (hadError) continue;
+
+            if (syntax instanceof List) {
+                interpreter.interpret((List<Stmt>)syntax);
+            } else if (syntax instanceof Expr) {
+                String result = interpreter.interpret((Expr)syntax);
+                if (result != null) {
+                    System.out.println("= " + result);
+                }
+            }
+        }
     }
 
     private static void run(String source) {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         Parser parser = new Parser(tokens);
-        Expr expression = parser.parse();
+        List<Stmt> statements = parser.parse();
 
         // Stop if there was a syntax error.
         if (hadError) return;
 
-        interpreter.interpret(expression);
+        interpreter.interpret(statements);
 
         for(Token token : tokens) {
             System.out.println(token);
