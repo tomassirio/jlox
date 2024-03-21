@@ -2,7 +2,9 @@ package com.tomassirio.lox;
 
 import com.tomassirio.lox.parser.AstPrinter;
 import com.tomassirio.lox.parser.Expr;
+import com.tomassirio.lox.parser.Interpreter;
 import com.tomassirio.lox.parser.Parser;
+import com.tomassirio.lox.parser.exception.RuntimeError;
 import com.tomassirio.lox.scanner.Scanner;
 import com.tomassirio.lox.scanner.token.Token;
 import com.tomassirio.lox.scanner.token.TokenType;
@@ -16,7 +18,10 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Lox {
+
+    private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
+    static boolean hadRuntimeError = false;
 
     public static void main(String[] args) throws IOException {
         if(args.length > 1) {
@@ -36,6 +41,7 @@ public class Lox {
         run(new String(bytes, Charset.defaultCharset()));
 
         if(hadError) System.exit(65);
+        if(hadRuntimeError) System.exit(70);
     }
 
     private static void runPrompt() throws IOException {
@@ -62,7 +68,7 @@ public class Lox {
         // Stop if there was a syntax error.
         if (hadError) return;
 
-        System.out.println(new AstPrinter().print(expression));
+        interpreter.interpret(expression);
 
         for(Token token : tokens) {
             System.out.println(token);
@@ -73,6 +79,10 @@ public class Lox {
         report(line, "", message);
     }
 
+    public static void runtimeError(RuntimeError error) {
+        System.err.println(error.getMessage() + "\n[line " + error.getToken().getLine() + "]");
+        hadRuntimeError = true;
+    }
     private static void report(int line, String where, String message) {
         System.err.println("[line " + line + "] Error" + where + ": " + message);
         hadError = true;
