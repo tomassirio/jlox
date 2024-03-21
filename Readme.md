@@ -32,11 +32,11 @@ Of course replace <file> with the path to the file you want to run.
 
 ## Use
 
-### Arithmetic Operations - Fix
+### Arithmetic Operations
 So far with the interpreter, you can make some arithmetic calculations:
 
 ```jlox
-314 == "pi";
+314 == "pi"
 ```
 
 ```jlox
