@@ -1,20 +1,32 @@
 package com.tomassirio.lox.parser;
 
 import com.tomassirio.lox.Lox;
-import com.tomassirio.lox.parser.exception.RuntimeError;
+import com.tomassirio.lox.environment.Environment;
+import com.tomassirio.lox.parser.error.RuntimeError;
 import com.tomassirio.lox.scanner.token.Token;
-import com.tomassirio.lox.scanner.token.TokenType;
 
-public class Interpreter implements Expr.Visitor<Object> {
+import java.util.List;
 
-    public void interpret(Expr expr) {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+
+    private Environment environment = new Environment();
+
+    public void interpret(List<Stmt> statements) {
         try {
-            Object value = evaluate(expr);
-            System.out.println(stringify(value));
+            statements.forEach(this::execute);
         } catch (RuntimeError error) {
             Lox.runtimeError(error);
         }
     }
+
+    @Override
+    public Object visitAssignExpr(Expr.Assign expr) {
+        Object value = evaluate(expr.value);
+        environment.assign(expr.name, value);
+        return value;
+    }
+
+    //Overrides Expr.Visitor
     @Override
     public Object visitBinaryExpr(Expr.Binary expr) {
         Object left = evaluate(expr.left);
@@ -96,8 +108,58 @@ public class Interpreter implements Expr.Visitor<Object> {
         return null;
     }
 
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        return environment.get(expr.name);
+    }
+
+    //Overrides Stmt.Visitor
+    @Override
+    public Void visitExpressionStmt(Stmt.Expression stmt) {
+        evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStmt(Stmt.Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Void visitVarStmt(Stmt.Var stmt) {
+        Object value = null;
+        if (stmt.initializer != null) {
+            value = evaluate(stmt.initializer);
+        }
+        environment.define(stmt.name.getLexeme(), value);
+        return null;
+    }
+
+    @Override
+    public Void visitBlockStmt(Stmt.Block stmt) {
+        executeBlock(stmt.statements, new Environment(environment));
+        return null;
+    }
+
     private Object evaluate(Expr expr) {
         return expr.accept(this);
+    }
+
+    private void execute(Stmt stmt) {
+        stmt.accept(this);
+    }
+
+    private void executeBlock(List<Stmt> statements, Environment environment) {
+        Environment previous = this.environment;
+        try {
+            this.environment = environment;
+
+            statements.forEach(this::execute);
+        } finally {
+            this.environment = previous;
+        }
     }
 
     private boolean isTruthy(Object object) {
@@ -114,7 +176,7 @@ public class Interpreter implements Expr.Visitor<Object> {
     }
 
     private void checkNumberOperand(Token operator, Object operand) {
-        if(operand instanceof Double) return;
+        if (operand instanceof Double) return;
         throw new RuntimeError(operator, "Operand must be a number.");
     }
 
@@ -124,7 +186,8 @@ public class Interpreter implements Expr.Visitor<Object> {
     }
 
     private void checkDivisionByZero(Object right) {
-        if (right instanceof Double && right.equals(0.0)) throw new ArithmeticException("Division by 0 is not allowed.");
+        if (right instanceof Double && right.equals(0.0))
+            throw new ArithmeticException("Division by 0 is not allowed.");
     }
 
     private String stringify(Object object) {

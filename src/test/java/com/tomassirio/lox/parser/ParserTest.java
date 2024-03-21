@@ -1,6 +1,6 @@
 package com.tomassirio.lox.parser;
 
-import com.tomassirio.lox.parser.exception.ParseErrorException;
+import com.tomassirio.lox.parser.error.ParseError;
 import com.tomassirio.lox.scanner.token.Token;
 import com.tomassirio.lox.scanner.token.TokenType;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,9 +29,9 @@ class ParserTest {
     @Test
     void testParse() {
         try {
-            Expr expr = parser.parse();
-            assertNotNull(expr);
-        } catch (ParseErrorException e) {
+            List<Stmt> statements = parser.parse();
+            assertNotNull(statements);
+        } catch (ParseError e) {
             fail("Parsing threw an unexpected exception");
         }
     }
@@ -40,7 +40,7 @@ class ParserTest {
     void testEmptyTokenList() {
         List<Token> tokens = List.of(new Token(TokenType.EOF, "", null, 0));
         Parser parser = new Parser(tokens);
-        Expr result = parser.parse();
-        assertNull(result);
+        List<Stmt> statements = parser.parse();
+        assertNull(statements);
     }
 }
