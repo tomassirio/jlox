@@ -1,12 +1,14 @@
 package com.tomassirio.lox.parser;
 
 import com.tomassirio.lox.scanner.token.Token;
+import java.util.List;
 
 public abstract class Expr {
     interface Visitor<R> {
         R visitAssignExpr(Assign expr);
         R visitBinaryExpr(Binary expr);
         R visitUnaryExpr(Unary expr);
+        R visitLogicalExpr(Logical expr);
         R visitLiteralExpr(Literal expr);
         R visitGroupingExpr(Grouping expr);
         R visitTernaryExpr(Ternary expr);
@@ -54,6 +56,22 @@ public abstract class Expr {
     <R> R accept(Visitor<R> visitor) {
         return visitor.visitUnaryExpr(this);
     }
+        final Token operator;
+        final Expr right;
+    }
+    static class Logical extends Expr {
+        Logical(Expr left, Token operator, Expr right) {
+            this.left = left;
+            this.operator = operator;
+            this.right = right;
+        }
+
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+        return visitor.visitLogicalExpr(this);
+    }
+        final Expr left;
         final Token operator;
         final Expr right;
     }

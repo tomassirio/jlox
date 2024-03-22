@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.tomassirio.lox.scanner.token.TokenType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScannerTest {
@@ -27,10 +28,10 @@ class ScannerTest {
         assertEquals(8, tokens.size());
 
         // Assert that the first token is a left parenthesis.
-        assertEquals(TokenType.LEFT_PAREN, tokens.get(0).getType());
+        assertEquals(LEFT_PAREN, tokens.get(0).getType());
 
         // Assert that the last token is EOF.
-        assertEquals(TokenType.EOF, tokens.get(tokens.size() - 1).getType());
+        assertEquals(EOF, tokens.get(tokens.size() - 1).getType());
     }
 
     @Test
@@ -39,7 +40,7 @@ class ScannerTest {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         assertEquals(1, tokens.size());
-        assertEquals(TokenType.EOF, tokens.get(0).getType());
+        assertEquals(EOF, tokens.get(0).getType());
     }
 
     @Test
@@ -48,7 +49,7 @@ class ScannerTest {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         assertEquals(1, tokens.size());
-        assertEquals(TokenType.EOF, tokens.get(0).getType());
+        assertEquals(EOF, tokens.get(0).getType());
     }
 
     @Test
@@ -57,7 +58,7 @@ class ScannerTest {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         assertEquals(1, tokens.size());
-        assertEquals(TokenType.EOF, tokens.get(0).getType());
+        assertEquals(EOF, tokens.get(0).getType());
     }
 
     @Test
@@ -66,7 +67,7 @@ class ScannerTest {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         assertEquals(2, tokens.size());  // number and EOF
-        assertEquals(TokenType.NUMBER, tokens.get(0).getType());
+        assertEquals(NUMBER, tokens.get(0).getType());
         assertEquals(3.14159, tokens.get(0).getLiteral());
     }
 }

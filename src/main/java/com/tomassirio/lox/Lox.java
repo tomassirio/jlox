@@ -4,7 +4,6 @@ import com.tomassirio.lox.parser.*;
 import com.tomassirio.lox.parser.error.RuntimeError;
 import com.tomassirio.lox.scanner.Scanner;
 import com.tomassirio.lox.scanner.token.Token;
-import com.tomassirio.lox.scanner.token.TokenType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +12,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+
+import static com.tomassirio.lox.scanner.token.TokenType.EOF;
 
 public class Lox {
 
@@ -100,7 +101,7 @@ public class Lox {
     }
 
     public static void error(Token token, String message) {
-        if (token.getType() == TokenType.EOF) {
+        if (token.getType() == EOF) {
             report(token.getLine(), " at end", message);
         } else {
             report(token.getLine(), " at '" + token.getLexeme() + "'", message);
