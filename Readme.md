@@ -59,6 +59,52 @@ Also, if a variable exists, can have its value replaced:
 a = "nolongertuvieja";
 ```
 
+### If conditions
+
+Similarly, as Java you can declare an if like this:
+
+```jlox
+    if ( 1 < 2 ) {
+        print true;
+    } else { 
+        print false;
+    }
+```
+
+### Logical operators
+
+```jlox
+print "hi" or 2;
+
+hi
+```
+
+```jlox
+print nil or "yes";
+
+yes
+```
+
+### While loops
+
+```jlox
+{ 
+    var i = 0; 
+    while (i < 10) { 
+        print i; i = i + 1; 
+    } 
+}
+```
+
+### For loops
+
+```jlox
+for (var b = 1; a < 10000; b = temp + b) { 
+    print a; temp = a; a = b; 
+}
+```
+
+
 ## Implemented so far
 
 We all have lives and so do I. I have not implemented the whole language yet, but I am working on it.

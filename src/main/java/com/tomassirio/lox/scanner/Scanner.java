@@ -8,6 +8,30 @@ import com.tomassirio.lox.scanner.token.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tomassirio.lox.scanner.token.TokenType.BANG;
+import static com.tomassirio.lox.scanner.token.TokenType.BANG_EQUAL;
+import static com.tomassirio.lox.scanner.token.TokenType.COMMA;
+import static com.tomassirio.lox.scanner.token.TokenType.DOT;
+import static com.tomassirio.lox.scanner.token.TokenType.EOF;
+import static com.tomassirio.lox.scanner.token.TokenType.EQUAL;
+import static com.tomassirio.lox.scanner.token.TokenType.EQUAL_EQUAL;
+import static com.tomassirio.lox.scanner.token.TokenType.GREATER;
+import static com.tomassirio.lox.scanner.token.TokenType.GREATER_EQUAL;
+import static com.tomassirio.lox.scanner.token.TokenType.IDENTIFIER;
+import static com.tomassirio.lox.scanner.token.TokenType.LEFT_BRACE;
+import static com.tomassirio.lox.scanner.token.TokenType.LEFT_PAREN;
+import static com.tomassirio.lox.scanner.token.TokenType.LESS;
+import static com.tomassirio.lox.scanner.token.TokenType.LESS_EQUAL;
+import static com.tomassirio.lox.scanner.token.TokenType.MINUS;
+import static com.tomassirio.lox.scanner.token.TokenType.NUMBER;
+import static com.tomassirio.lox.scanner.token.TokenType.PLUS;
+import static com.tomassirio.lox.scanner.token.TokenType.RIGHT_BRACE;
+import static com.tomassirio.lox.scanner.token.TokenType.RIGHT_PAREN;
+import static com.tomassirio.lox.scanner.token.TokenType.SEMICOLON;
+import static com.tomassirio.lox.scanner.token.TokenType.SLASH;
+import static com.tomassirio.lox.scanner.token.TokenType.STAR;
+import static com.tomassirio.lox.scanner.token.TokenType.STRING;
+
 public class Scanner {
 
     private final String source;
@@ -26,7 +50,7 @@ public class Scanner {
             scanToken();
         }
 
-        tokens.add(new Token(TokenType.EOF, "", null, line));
+        tokens.add(new Token(EOF, "", null, line));
         return tokens;
     }
 
@@ -38,46 +62,46 @@ public class Scanner {
         char c = advance();
         switch (c) {
             case '(':
-                addToken(TokenType.LEFT_PAREN);
+                addToken(LEFT_PAREN);
                 break;
             case ')':
-                addToken(TokenType.RIGHT_PAREN);
+                addToken(RIGHT_PAREN);
                 break;
             case '{':
-                addToken(TokenType.LEFT_BRACE);
+                addToken(LEFT_BRACE);
                 break;
             case '}':
-                addToken(TokenType.RIGHT_BRACE);
+                addToken(RIGHT_BRACE);
                 break;
             case ',':
-                addToken(TokenType.COMMA);
+                addToken(COMMA);
                 break;
             case '.':
-                addToken(TokenType.DOT);
+                addToken(DOT);
                 break;
             case '-':
-                addToken(TokenType.MINUS);
+                addToken(MINUS);
                 break;
             case '+':
-                addToken(TokenType.PLUS);
+                addToken(PLUS);
                 break;
             case ';':
-                addToken(TokenType.SEMICOLON);
+                addToken(SEMICOLON);
                 break;
             case '*':
-                addToken(TokenType.STAR);
+                addToken(STAR);
                 break;
             case '!':
-                addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
+                addToken(match('=') ? BANG_EQUAL : BANG);
                 break;
             case '=':
-                addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
+                addToken(match('=') ? EQUAL_EQUAL : EQUAL);
                 break;
             case '<':
-                addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
+                addToken(match('=') ? LESS_EQUAL : LESS);
                 break;
             case '>':
-                addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+                addToken(match('=') ? GREATER_EQUAL : GREATER);
                 break;
             case '/':
                 if (match('/')) {
@@ -95,7 +119,7 @@ public class Scanner {
                     advance();
                     advance();
                 } else {
-                    addToken(TokenType.SLASH);
+                    addToken(SLASH);
                 }
                 break;
             case ' ':
@@ -163,7 +187,7 @@ public class Scanner {
 
         // Trim the surrounding quotes.
         String value = source.substring(start + 1, current - 1);
-        addToken(TokenType.STRING, value);
+        addToken(STRING, value);
     }
 
     private void number() {
@@ -177,7 +201,7 @@ public class Scanner {
             while (isDigit(peek())) advance();
         }
 
-        addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
+        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
     }
 
     private void identifier() {
@@ -185,7 +209,7 @@ public class Scanner {
 
         String text = source.substring(start, current);
         TokenType type = ReservedKeyWords.get(text);
-        if (type == null) type = TokenType.IDENTIFIER;
+        if (type == null) type = IDENTIFIER;
         addToken(type);
     }
 

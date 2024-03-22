@@ -2,13 +2,18 @@ package com.tomassirio.lox.parser;
 
 import com.tomassirio.lox.parser.error.ParseError;
 import com.tomassirio.lox.scanner.token.Token;
-import com.tomassirio.lox.scanner.token.TokenType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.tomassirio.lox.scanner.token.TokenType.EOF;
+import static com.tomassirio.lox.scanner.token.TokenType.NUMBER;
+import static com.tomassirio.lox.scanner.token.TokenType.PLUS;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class ParserTest {
 
@@ -17,10 +22,10 @@ class ParserTest {
     @BeforeEach
     void setUp() {
         List<Token> tokens = Arrays.asList(
-                new Token(TokenType.NUMBER, "1", 1, 1),
-                new Token(TokenType.PLUS, "+", null, 1),
-                new Token(TokenType.NUMBER, "2", 2, 1),
-                new Token(TokenType.EOF, "", null, 2)
+                new Token(NUMBER, "1", 1, 1),
+                new Token(PLUS, "+", null, 1),
+                new Token(NUMBER, "2", 2, 1),
+                new Token(EOF, "", null, 2)
         );
 
         this.parser = new Parser(tokens);
@@ -38,7 +43,7 @@ class ParserTest {
 
     @Test
     void testEmptyTokenList() {
-        List<Token> tokens = List.of(new Token(TokenType.EOF, "", null, 0));
+        List<Token> tokens = List.of(new Token(EOF, "", null, 0));
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
         assertNull(statements);

@@ -17,6 +17,7 @@ public class GenerateAst {
                 "Assign   : Token name, Expr value",
                 "Binary   : Expr left, Token operator, Expr right",
                 "Unary    : Token operator, Expr right",
+                "Logical  : Expr left, Token operator, Expr right",
                 "Literal  : Object value",
                 "Grouping : Expr expression",
                 "Ternary  : Expr condition, Expr thenBranch, Expr elseBranch",
@@ -25,6 +26,8 @@ public class GenerateAst {
 
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Expression : Expr expression",
+                "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
+                "While      : Expr condition, Stmt thenBranch",
                 "Print      : Expr expression",
                 "Var        : Token name, Expr initializer",
                 "Block      : List<Stmt> statements"
@@ -38,6 +41,7 @@ public class GenerateAst {
         writer.println("package com.tomassirio.lox.parser;");
         writer.println();
         writer.println("import com.tomassirio.lox.scanner.token.Token;");
+        writer.println("import java.util.List;");
         writer.println();
         writer.println("public abstract class " + baseName + " {");
 
