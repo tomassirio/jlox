@@ -104,6 +104,13 @@ for (var b = 1; a < 10000; b = temp + b) {
 }
 ```
 
+### Functions
+
+You can try functions with this fibonacci example:
+
+```jlox
+fun fib(n) { if (n <=1) return n; return fib(n-2) + fib(n - 1);} for (var i = 0; i < 20; i = i+1) { print fib(i);}
+```
 
 ## Implemented so far
 
@@ -114,6 +121,8 @@ So far I have implemented the following:
 - Parser
 - Interpreter
 - Statements and State
+- Control Flow
+- Functions
 
-Coming up:
-- Chapter 9: Control Flow
+Coming next:
+- Chapter 11: Resolving and Binding

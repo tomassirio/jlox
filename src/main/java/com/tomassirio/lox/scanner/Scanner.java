@@ -8,29 +8,7 @@ import com.tomassirio.lox.scanner.token.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tomassirio.lox.scanner.token.TokenType.BANG;
-import static com.tomassirio.lox.scanner.token.TokenType.BANG_EQUAL;
-import static com.tomassirio.lox.scanner.token.TokenType.COMMA;
-import static com.tomassirio.lox.scanner.token.TokenType.DOT;
-import static com.tomassirio.lox.scanner.token.TokenType.EOF;
-import static com.tomassirio.lox.scanner.token.TokenType.EQUAL;
-import static com.tomassirio.lox.scanner.token.TokenType.EQUAL_EQUAL;
-import static com.tomassirio.lox.scanner.token.TokenType.GREATER;
-import static com.tomassirio.lox.scanner.token.TokenType.GREATER_EQUAL;
-import static com.tomassirio.lox.scanner.token.TokenType.IDENTIFIER;
-import static com.tomassirio.lox.scanner.token.TokenType.LEFT_BRACE;
-import static com.tomassirio.lox.scanner.token.TokenType.LEFT_PAREN;
-import static com.tomassirio.lox.scanner.token.TokenType.LESS;
-import static com.tomassirio.lox.scanner.token.TokenType.LESS_EQUAL;
-import static com.tomassirio.lox.scanner.token.TokenType.MINUS;
-import static com.tomassirio.lox.scanner.token.TokenType.NUMBER;
-import static com.tomassirio.lox.scanner.token.TokenType.PLUS;
-import static com.tomassirio.lox.scanner.token.TokenType.RIGHT_BRACE;
-import static com.tomassirio.lox.scanner.token.TokenType.RIGHT_PAREN;
-import static com.tomassirio.lox.scanner.token.TokenType.SEMICOLON;
-import static com.tomassirio.lox.scanner.token.TokenType.SLASH;
-import static com.tomassirio.lox.scanner.token.TokenType.STAR;
-import static com.tomassirio.lox.scanner.token.TokenType.STRING;
+import static com.tomassirio.lox.scanner.token.TokenType.*;
 
 public class Scanner {
 

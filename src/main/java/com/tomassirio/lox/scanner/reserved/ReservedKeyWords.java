@@ -5,22 +5,7 @@ import com.tomassirio.lox.scanner.token.TokenType;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tomassirio.lox.scanner.token.TokenType.AND;
-import static com.tomassirio.lox.scanner.token.TokenType.CLASS;
-import static com.tomassirio.lox.scanner.token.TokenType.ELSE;
-import static com.tomassirio.lox.scanner.token.TokenType.FALSE;
-import static com.tomassirio.lox.scanner.token.TokenType.FOR;
-import static com.tomassirio.lox.scanner.token.TokenType.FUN;
-import static com.tomassirio.lox.scanner.token.TokenType.IF;
-import static com.tomassirio.lox.scanner.token.TokenType.NIL;
-import static com.tomassirio.lox.scanner.token.TokenType.OR;
-import static com.tomassirio.lox.scanner.token.TokenType.PRINT;
-import static com.tomassirio.lox.scanner.token.TokenType.RETURN;
-import static com.tomassirio.lox.scanner.token.TokenType.SUPER;
-import static com.tomassirio.lox.scanner.token.TokenType.THIS;
-import static com.tomassirio.lox.scanner.token.TokenType.TRUE;
-import static com.tomassirio.lox.scanner.token.TokenType.VAR;
-import static com.tomassirio.lox.scanner.token.TokenType.WHILE;
+import static com.tomassirio.lox.scanner.token.TokenType.*;
 
 public class ReservedKeyWords {
 
