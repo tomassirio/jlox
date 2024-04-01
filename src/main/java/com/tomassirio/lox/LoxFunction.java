@@ -1,7 +1,7 @@
-package com.tomassirio.lox.parser;
+package com.tomassirio.lox;
 
 import com.tomassirio.lox.environment.Environment;
-import com.tomassirio.lox.parser.error.Return;
+import com.tomassirio.lox.error.Return;
 
 import java.util.List;
 

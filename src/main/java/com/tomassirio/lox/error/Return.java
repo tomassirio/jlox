@@ -1,4 +1,4 @@
-package com.tomassirio.lox.parser.error;
+package com.tomassirio.lox.error;
 
 public class Return extends RuntimeException {
     final Object value;

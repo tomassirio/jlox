@@ -1,4 +1,4 @@
-package com.tomassirio.lox.parser;
+package com.tomassirio.lox;
 
 import java.util.List;
 

@@ -1,10 +1,6 @@
 package com.tomassirio.lox;
 
-import com.tomassirio.lox.parser.Expr;
-import com.tomassirio.lox.parser.Interpreter;
-import com.tomassirio.lox.parser.Parser;
-import com.tomassirio.lox.parser.Stmt;
-import com.tomassirio.lox.parser.error.RuntimeError;
+import com.tomassirio.lox.error.RuntimeError;
 import com.tomassirio.lox.scanner.Scanner;
 import com.tomassirio.lox.scanner.token.Token;
 
@@ -33,7 +29,6 @@ public class Lox {
         } else {
             runPrompt();
         }
-        System.out.println("Hello world!");
     }
 
     private static void runFile(String path) throws IOException {
@@ -83,11 +78,12 @@ public class Lox {
         // Stop if there was a syntax error.
         if (hadError) return;
 
-        interpreter.interpret(statements);
+        Resolver resolver = new Resolver(interpreter);
+        resolver.resolve(statements);
 
-        for(Token token : tokens) {
-            System.out.println(token);
-        }
+        if (hadError) return;
+
+        interpreter.interpret(statements);
     }
 
     public static void error(int line, String message) {
