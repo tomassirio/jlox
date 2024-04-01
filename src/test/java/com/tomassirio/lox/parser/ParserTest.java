@@ -1,6 +1,8 @@
 package com.tomassirio.lox.parser;
 
-import com.tomassirio.lox.parser.error.ParseError;
+import com.tomassirio.lox.Parser;
+import com.tomassirio.lox.Stmt;
+import com.tomassirio.lox.error.ParseError;
 import com.tomassirio.lox.scanner.token.Token;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

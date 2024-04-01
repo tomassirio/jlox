@@ -1,4 +1,4 @@
-package com.tomassirio.lox.parser;
+package com.tomassirio.lox;
 
 import com.tomassirio.lox.scanner.token.Token;
 
@@ -75,9 +75,9 @@ public abstract class Stmt {
         final Stmt elseBranch;
     }
     static class While extends Stmt {
-        While(Expr condition, Stmt thenBranch) {
+        While(Expr condition, Stmt body) {
             this.condition = condition;
-            this.thenBranch = thenBranch;
+            this.body = body;
         }
 
 
@@ -86,7 +86,7 @@ public abstract class Stmt {
         return visitor.visitWhileStmt(this);
     }
         final Expr condition;
-        final Stmt thenBranch;
+        final Stmt body;
     }
     static class Print extends Stmt {
         Print(Expr expression) {

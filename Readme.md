@@ -32,6 +32,8 @@ Of course replace <file> with the path to the file you want to run.
 
 ## Use
 
+You can try also the files in the resources folder
+
 ### Arithmetic Operations
 So far with the interpreter, you can make some arithmetic calculations:
 
@@ -125,4 +127,4 @@ So far I have implemented the following:
 - Functions
 
 Coming next:
-- Chapter 11: Resolving and Binding
+- Chapter 12: Classes

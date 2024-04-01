@@ -1,7 +1,6 @@
-package com.tomassirio.lox.parser;
+package com.tomassirio.lox;
 
-import com.tomassirio.lox.Lox;
-import com.tomassirio.lox.parser.error.ParseError;
+import com.tomassirio.lox.error.ParseError;
 import com.tomassirio.lox.scanner.token.Token;
 import com.tomassirio.lox.scanner.token.TokenType;
 

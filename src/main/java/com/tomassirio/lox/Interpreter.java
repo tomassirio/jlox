@@ -1,13 +1,14 @@
-package com.tomassirio.lox.parser;
+package com.tomassirio.lox;
 
-import com.tomassirio.lox.Lox;
 import com.tomassirio.lox.environment.Environment;
-import com.tomassirio.lox.parser.error.Return;
-import com.tomassirio.lox.parser.error.RuntimeError;
+import com.tomassirio.lox.error.Return;
+import com.tomassirio.lox.error.RuntimeError;
 import com.tomassirio.lox.scanner.token.Token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.tomassirio.lox.scanner.token.TokenType.OR;
 
@@ -15,6 +16,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     final Environment globals = new Environment();
     private Environment environment = globals;
+    private final Map<Expr, Integer> locals = new HashMap<>();
 
     public Interpreter() {
         globals.define("clock", new LoxCallable() {
@@ -56,7 +58,13 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitAssignExpr(Expr.Assign expr) {
         Object value = evaluate(expr.value);
-        environment.assign(expr.name, value);
+
+        Integer distance = locals.get(expr);
+        if (distance != null) {
+            environment.assignAt(distance, expr.name, value);
+        } else {
+            globals.assign(expr.name, value);
+        }
         return value;
     }
 
@@ -177,7 +185,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitVariableExpr(Expr.Variable expr) {
-        return environment.get(expr.name);
+        return lookUpVariable(expr.name, expr);
     }
 
     //Overrides Stmt.Visitor
@@ -214,7 +222,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
         while (isTruthy(evaluate(stmt.condition))) {
-            execute(stmt.thenBranch);
+            execute(stmt.body);
         }
         return null;
     }
@@ -253,6 +261,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
     }
 
+    public void resolve(Expr expr, int depth) {
+        locals.put(expr, depth);
+    }
+
     private Object evaluate(Expr expr) {
         return expr.accept(this);
     }
@@ -260,6 +272,8 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     private void execute(Stmt stmt) {
         stmt.accept(this);
     }
+
+
 
     private boolean isTruthy(Object object) {
         if (object == null) return false;
@@ -300,6 +314,15 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             return text;
         }
         return object.toString();
+    }
+
+    private Object lookUpVariable(Token name, Expr expr) {
+        Integer distance = locals.get(expr);
+        if (distance != null) {
+            return environment.getAt(distance, name.getLexeme());
+        } else {
+            return globals.get(name);
+        }
     }
 
 
