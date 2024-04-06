@@ -22,16 +22,16 @@ class ScannerTest {
 
     @Test
     void testScanTokens() {
+        Scanner scanner = new Scanner("( - ) * / ; // comment");
         List<Token> tokens = scanner.scanTokens();
 
-        // Assert that the correct number of tokens were scanned.
-        assertEquals(8, tokens.size());
-
-        // Assert that the first token is a left parenthesis.
         assertEquals(LEFT_PAREN, tokens.get(0).getType());
-
-        // Assert that the last token is EOF.
-        assertEquals(EOF, tokens.get(tokens.size() - 1).getType());
+        assertEquals(MINUS, tokens.get(1).getType());
+        assertEquals(RIGHT_PAREN, tokens.get(2).getType());
+        assertEquals(STAR, tokens.get(3).getType());
+        assertEquals(SLASH, tokens.get(4).getType());
+        assertEquals(SEMICOLON, tokens.get(5).getType());
+        assertEquals(EOF, tokens.get(6).getType());
     }
 
     @Test
@@ -69,5 +69,46 @@ class ScannerTest {
         assertEquals(2, tokens.size());  // number and EOF
         assertEquals(NUMBER, tokens.get(0).getType());
         assertEquals(3.14159, tokens.get(0).getLiteral());
+    }
+
+    @Test
+    void testScanStringToken() {
+        Scanner scanner = new Scanner("\"Hello, World!\"");
+        List<Token> tokens = scanner.scanTokens();
+
+        assertEquals(STRING, tokens.get(0).getType());
+        assertEquals("Hello, World!", tokens.get(0).getLiteral());
+    }
+
+    @Test
+    void testScanNumberToken() {
+        Scanner scanner = new Scanner("123.456");
+        List<Token> tokens = scanner.scanTokens();
+
+        assertEquals(NUMBER, tokens.get(0).getType());
+        assertEquals(123.456, tokens.get(0).getLiteral());
+    }
+
+    @Test
+    void testScanReservedWords() {
+        final String source = "and class else false fun for if nil or print return super this true var while";
+        Scanner scanner = new Scanner(source);
+        List<Token> tokens = scanner.scanTokens();
+
+        TokenType[] expectedTokenTypes = {AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR, PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE};
+
+        for (int i = 0; i < expectedTokenTypes.length; i++) {
+            assertEquals(expectedTokenTypes[i], tokens.get(i).getType());
+        }
+    }
+
+    @Test
+    void testScanIdentifiers() {
+        Scanner scanner = new Scanner("foo bar1 _baz");
+        List<Token> tokens = scanner.scanTokens();
+
+        for (Token token : tokens.subList(0, tokens.size() - 1)) {
+            assertEquals(IDENTIFIER, token.getType());
+        }
     }
 }
