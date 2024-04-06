@@ -1,7 +1,6 @@
 package com.tomassirio.lox;
 
 import com.tomassirio.lox.scanner.token.Token;
-
 import java.util.List;
 
 public abstract class Expr {
