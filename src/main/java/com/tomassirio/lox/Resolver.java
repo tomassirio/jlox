@@ -40,7 +40,13 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         beginScope();
         scopes.peek().put("this", true);
 
-        stmt.methods.forEach(m -> resolveFunction(m, FunctionType.METHOD));
+        stmt.methods.forEach(m -> {
+            FunctionType declaration = FunctionType.METHOD;
+            if (m.name.getLexeme().equals("init")) {
+                declaration = FunctionType.INITIALIZER;
+            }
+            resolveFunction(m, declaration);
+        });
 
         endScope();
         currentClass = enclosingClass;
@@ -53,6 +59,9 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             Lox.error(stmt.keyword, "Can't return from top-level code.");
         }
         if (stmt.value != null) {
+            if (currentFunction == FunctionType.INITIALIZER) {
+                Lox.error(stmt.keyword, "Can't return a value from an initializer.");
+            }
             resolve(stmt.value);
         }
         return null;
