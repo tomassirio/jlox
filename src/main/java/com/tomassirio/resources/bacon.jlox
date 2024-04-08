@@ -1,0 +1,7 @@
+class Bacon {
+    eat() {
+        print "Crunchy crunchy";
+    }
+}
+
+Bacon().eat(); //Prints "Crunchy crunchy"

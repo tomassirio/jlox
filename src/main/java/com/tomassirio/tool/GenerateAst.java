@@ -18,6 +18,9 @@ public class GenerateAst {
                 "Binary   : Expr left, Token operator, Expr right",
                 "Unary    : Token operator, Expr right",
                 "Call     : Expr callee, Token paren, List<Expr> arguments",
+                "Get      : Expr object, Token name",
+                "Set      : Expr object, Token name, Expr value",
+                "This     : Token keyword",
                 "Logical  : Expr left, Token operator, Expr right",
                 "Literal  : Object value",
                 "Grouping : Expr expression",
@@ -28,9 +31,10 @@ public class GenerateAst {
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Expression : Expr expression",
                 "Function   : Token name, List<Token> params, List<Stmt> body",
+                "Class      : Token name, List<Stmt.Function> methods",
                 "Return     : Token keyword, Expr value",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
-                "While      : Expr condition, Stmt thenBranch",
+                "While      : Expr condition, Stmt body",
                 "Print      : Expr expression",
                 "Var        : Token name, Expr initializer",
                 "Block      : List<Stmt> statements"
@@ -41,7 +45,7 @@ public class GenerateAst {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
 
-        writer.println("package com.tomassirio.lox.parser;");
+        writer.println("package com.tomassirio.lox;");
         writer.println();
         writer.println("import com.tomassirio.lox.scanner.token.Token;");
         writer.println("import java.util.List;");
