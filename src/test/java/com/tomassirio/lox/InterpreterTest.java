@@ -38,7 +38,8 @@ public class InterpreterTest {
     public void testVisitClassStmt() {
         Token mockToken = Mockito.mock(Token.class);
         List<Stmt.Function> mockMethods = new ArrayList<>();
-        Stmt.Class mockClassStmt = new Stmt.Class(mockToken, mockMethods);
+        Expr.Variable superClass = Mockito.mock(Expr.Variable.class);
+        Stmt.Class mockClassStmt = new Stmt.Class(mockToken, superClass, mockMethods);
 
         assertDoesNotThrow(() -> interpreter.visitClassStmt(mockClassStmt));
     }

@@ -13,14 +13,15 @@ public class LoxClassTest {
 
     private LoxClass loxClass;
     private LoxFunction mockLoxFunction;
-    private String testName = "testFunction";
+    private final String testName = "testFunction";
 
     @Before
     public void setup() {
         Map<String, LoxFunction> methods = new HashMap<>();
         mockLoxFunction = Mockito.mock(LoxFunction.class);
+        LoxClass superClass = Mockito.mock(LoxClass.class);
         methods.put(testName, mockLoxFunction);
-        loxClass = new LoxClass("TestClass", methods);
+        loxClass = new LoxClass("TestClass", superClass, methods);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class LoxClassTest {
     @Test
     public void testCallReturnsLoxInstance() {
         Interpreter mockInterpreter = Mockito.mock(Interpreter.class);
-        List<Object> mockList = Mockito.mock(List.class);
+        List mockList = Mockito.mock(List.class);
 
         Object result = loxClass.call(mockInterpreter, mockList);
 
