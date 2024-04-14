@@ -9,7 +9,6 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Interpreter interpreter;
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
     private FunctionType currentFunction = FunctionType.NONE;
-
     private ClassType currentClass = ClassType.NONE;
     public Resolver(Interpreter interpreter) {
         this.interpreter = interpreter;
@@ -36,6 +35,18 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         declare(stmt.name);
         define(stmt.name);
+        if (stmt.superclass != null && stmt.name.getLexeme().equals(stmt.superclass.name.getLexeme())) {
+            Lox.error(stmt.superclass.name, "A class can't inherit from itself.");
+        }
+        if (stmt.superclass != null) {
+            currentClass = ClassType.SUBCLASS;
+            resolve(stmt.superclass);
+        }
+
+        if (stmt.superclass != null) {
+            beginScope();
+            scopes.peek().put("super", true);
+        }
 
         beginScope();
         scopes.peek().put("this", true);
@@ -49,6 +60,7 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         });
 
         endScope();
+        if (stmt.superclass != null) endScope();
         currentClass = enclosingClass;
         return null;
     }
@@ -142,6 +154,18 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitSetExpr(Expr.Set expr) {
         resolve(expr.value);
         resolve(expr.object);
+        return null;
+    }
+
+    @Override
+    public Void visitSuperExpr(Expr.Super expr) {
+        if (currentClass == ClassType.NONE) {
+            Lox.error(expr.keyword, "Can't use 'super' outside of a class.");
+            return null;
+        } else if (currentClass != ClassType.SUBCLASS) {
+            Lox.error(expr.keyword, "Can't use 'super' in a class with no superclass");
+        }
+        resolveLocal(expr, expr.keyword);
         return null;
     }
 

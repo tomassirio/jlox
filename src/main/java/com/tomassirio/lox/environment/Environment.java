@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Environment {
-    private Environment enclosing;
+    private final Environment enclosing;
     private final Map<String, Object> values = new HashMap<>();
 
     public Environment() {
@@ -48,6 +48,10 @@ public class Environment {
         throw new RuntimeError(name, "Undefined variable '" + name.getLexeme() + "'.");
     }
 
+    public Environment getEnclosing() {
+        return enclosing;
+    }
+
     private Environment ancestor(int distance) {
         Environment environment = this;
         for (int i = 0; i < distance; i++) {
@@ -55,4 +59,5 @@ public class Environment {
         }
         return environment;
     }
+
 }

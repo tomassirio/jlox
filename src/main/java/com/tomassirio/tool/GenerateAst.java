@@ -2,6 +2,7 @@ package com.tomassirio.tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class GenerateAst {
                 "Call     : Expr callee, Token paren, List<Expr> arguments",
                 "Get      : Expr object, Token name",
                 "Set      : Expr object, Token name, Expr value",
+                "Super    : Token keyword, Token method",
                 "This     : Token keyword",
                 "Logical  : Expr left, Token operator, Expr right",
                 "Literal  : Object value",
@@ -31,7 +33,7 @@ public class GenerateAst {
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Expression : Expr expression",
                 "Function   : Token name, List<Token> params, List<Stmt> body",
-                "Class      : Token name, List<Stmt.Function> methods",
+                "Class      : Token name, Expr.Variable superclass, List<Stmt.Function> methods",
                 "Return     : Token keyword, Expr value",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
                 "While      : Expr condition, Stmt body",
@@ -43,7 +45,7 @@ public class GenerateAst {
 
     private static void defineAst(String outputDir, String baseName, List<String> types) throws IOException {
         String path = outputDir + "/" + baseName + ".java";
-        PrintWriter writer = new PrintWriter(path, "UTF-8");
+        PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
 
         writer.println("package com.tomassirio.lox;");
         writer.println();
